@@ -11,6 +11,7 @@ import Foundation
 struct Server {
     static let productionURL = "https://api.themoviedb.org/3/"
     static let stagingURL = "https://api.themoviedb.org/3/"
+    static let apiKEY = "c9856d0cb57c3f14bf75bdc6c063b8f3"
     
     static var baseURL: String {
         return productionURL
