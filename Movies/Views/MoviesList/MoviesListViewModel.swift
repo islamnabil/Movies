@@ -11,6 +11,8 @@ import Combine
 protocol MoviesListViewModelProtocol: ObservableObject {
     var state: MoviesListViewModel.MoviesListPageState { get }
     var movies: [MovieVMProtocol] { get }
+    var page: Int { get set }
+    var totalPages: Int { get }
     func fetchTrendingMovies()
 }
 
@@ -30,6 +32,8 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
     // MARK: - Proprties
     @Published var movies: [MovieVMProtocol] = []
     @Published var state: MoviesListPageState = .loading
+    var page: Int = 1
+    var totalPages: Int = 1
     private var bindings = Set<AnyCancellable>()
     private var provider: MoviesAPIProtocol?
     lazy var requestCompletionHandler: (Subscribers.Completion<ErrorResponse>) -> Void = { completion in
@@ -44,14 +48,22 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
     
     // MARK: - Public Methods
     func fetchTrendingMovies() {
-        provider?.list()
-            .receive(on: RunLoop.main)
-            .sink(receiveCompletion: requestCompletionHandler) { [weak self] in
-                if let results = $0.results {
-                    self?.movies = results.map({ MovieVM(movie: $0) })
+        if page <= totalPages {
+            provider?.list(page: page)
+                .receive(on: RunLoop.main)
+                .sink(receiveCompletion: requestCompletionHandler) { [weak self] in
+                    if let results = $0.results, let totalPages = $0.totalPages {
+                        if self?.page == 1 {
+                            self?.movies = results.map({ MovieVM(movie: $0) })
+                        } else {
+                            self?.movies.append(contentsOf: results.map({ MovieVM(movie: $0) }))
+                        }
+                        self?.totalPages = totalPages
+                        self?.page += 1
+                    }
                 }
-            }
-            .store(in: &bindings)
+                .store(in: &bindings)
+        }
     }
     
 }

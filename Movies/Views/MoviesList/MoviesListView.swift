@@ -15,16 +15,21 @@ struct MoviesListView<ViewModel>: View where ViewModel: MoviesListViewModelProto
     var body: some View {
         List(viewModel.movies, id: \.id) { movie in
             MovieItemView(movie: movie)
+                .onAppear {
+                    if movie.id == viewModel.movies.last?.id {
+                        viewModel.fetchTrendingMovies()
+                    }
+                }
         }
         .onAppear {
-            viewModel.fetchTrendingMovies() // Call fetchTrendingMovies when the view appears
+            viewModel.fetchTrendingMovies()
         }
     }
 }
-
-struct MoviesListView_Previews: PreviewProvider {
-    static var previews: some View {
-        let viewModel = MoviesListViewModel(provider: MoviesAPI())
-        MoviesListView<MoviesListViewModel>(viewModel: viewModel)
+    
+    struct MoviesListView_Previews: PreviewProvider {
+        static var previews: some View {
+            let viewModel = MoviesListViewModel(provider: MoviesAPI())
+            MoviesListView<MoviesListViewModel>(viewModel: viewModel)
+        }
     }
-}

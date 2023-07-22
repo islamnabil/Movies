@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 public enum MoviesNetworking {
-    case list
+    case list(page: Int)
 }
 
 private enum MoviesNetworkingEndpoints: String {
@@ -42,9 +42,10 @@ extension MoviesNetworking: TargetType {
 
     public var task: Task {
         switch self {
-        case .list:
+        case let .list(page):
             let params = [
-                "api_key": Server.apiKEY
+                "api_key": Server.apiKEY,
+                "page": page
             ] as [String : Any]
             return  .requestParameters(parameters: params, encoding: URLEncoding.default)
         }

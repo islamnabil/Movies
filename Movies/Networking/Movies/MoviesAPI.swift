@@ -10,12 +10,12 @@ import Alamofire
 import Combine
 
 protocol MoviesAPIProtocol {
-    func list() -> AnyPublisher<PaginatedBaseArrayResponse<MovieModel>, ErrorResponse>
+    func list(page: Int) -> AnyPublisher<PaginatedBaseArrayResponse<MovieModel>, ErrorResponse>
 }
 
 public class MoviesAPI:  BaseAPI<MoviesNetworking>, MoviesAPIProtocol {
-    func list() -> AnyPublisher<PaginatedBaseArrayResponse<MovieModel>, ErrorResponse> {
-        self.fetchData(target: .list)
+    func list(page: Int) -> AnyPublisher<PaginatedBaseArrayResponse<MovieModel>, ErrorResponse> {
+        self.fetchData(target: .list(page: page))
     }
 
 }
