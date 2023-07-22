@@ -14,10 +14,14 @@ struct MovieItemView: View {
     // MARK: - Body
     var body: some View {
         HStack {
-            Image(systemName: movie.posterPath)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 50, height: 100)
+            AsyncImage(url: URL(string: movie.posterPath)) { image in
+                image
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 50, height: 100)
+            } placeholder: {
+                ProgressView()
+            }
             VStack(alignment: .leading) {
                 Text(movie.title)
                     .font(.headline)

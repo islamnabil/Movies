@@ -12,18 +12,20 @@ class MovieModel: Codable {
     let title: String?
     let releaseDate: String?
     let posterPath: String?
+    let overview: String?
     
     private enum CodingKeys : String, CodingKey {
-       case id
+       case id, overview
        case title = "original_title"
        case releaseDate = "release_date"
        case posterPath = "poster_path"
     }
     
-    internal init(id: Int? = nil, title: String? = nil, releaseDate: String? = nil, posterPath: String? = nil) {
+    internal init(id: Int? = nil, title: String? = nil, releaseDate: String? = nil, posterPath: String? = nil, overview: String? = nil) {
         self.id = id
         self.title = title
         self.releaseDate = releaseDate
         self.posterPath = posterPath
+        self.overview = overview
     }
 }

@@ -12,6 +12,7 @@ public protocol MovieVMProtocol {
     var title: String { get }
     var releaseDate: String { get }
     var posterPath: String { get }
+    var overview: String { get }
 }
 
 class MovieVM: MovieVMProtocol {
@@ -31,11 +32,19 @@ class MovieVM: MovieVMProtocol {
     var title: String {
         movie?.title ?? ""
     }
+    
     var releaseDate: String {
         movie?.releaseDate ?? ""
     }
+    
     var posterPath: String {
-        ""
+        var path = movie?.posterPath
+        path?.removeFirst()
+        return "https://image.tmdb.org/t/p/w500/\(path!)"
+    }
+    
+    var overview: String {
+        movie?.overview ?? ""
     }
     
 }

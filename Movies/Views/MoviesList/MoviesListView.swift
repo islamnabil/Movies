@@ -8,21 +8,25 @@
 import SwiftUI
 
 struct MoviesListView<ViewModel>: View where ViewModel: MoviesListViewModelProtocol{
-    
+    // MARK: - Properties
     @StateObject var viewModel: ViewModel
     
-    
+    // MARK: - Bosy
     var body: some View {
-        List(viewModel.movies, id: \.id) { movie in
-            MovieItemView(movie: movie)
-                .onAppear {
-                    if movie.id == viewModel.movies.last?.id {
-                        viewModel.fetchTrendingMovies()
-                    }
+        NavigationView {
+            List(viewModel.movies, id: \.id) { movie in
+                NavigationLink(destination: MovieDetailsView(movie: movie)){
+                    MovieItemView(movie: movie)
+                        .onAppear {
+                            if movie.id == viewModel.movies.last?.id {
+                                viewModel.fetchTrendingMovies()
+                            }
+                        }
                 }
-        }
-        .onAppear {
-            viewModel.fetchTrendingMovies()
+            }
+            .onAppear {
+                viewModel.fetchTrendingMovies()
+            }
         }
     }
 }
