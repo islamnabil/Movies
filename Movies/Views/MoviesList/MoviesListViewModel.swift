@@ -54,8 +54,9 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
         configurationProvider?.configuration()
             .receive(on: RunLoop.main)
             .sink(receiveCompletion: requestCompletionHandler) { [weak self] in
-                if let results = $0.images, let baseURL = results.secureBaseUrl {
+                if let results = $0.images, let baseURL = results.secureBaseUrl, let posterSizes = results.posterSizes {
                     Server.mediaBaseURL =  baseURL
+                    Server.posterSizes = posterSizes
                     self?.fetchTrendingMovies()
                 }
             }

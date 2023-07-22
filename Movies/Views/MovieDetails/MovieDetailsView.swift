@@ -14,7 +14,7 @@ struct MovieDetailsView: View {
     // MARK: - Body
     var body: some View {
         VStack(spacing: 16) {
-            AsyncImage(url: URL(string: movie.posterPath)) { image in
+            AsyncImage(url: URL(string: movie.posterPath(size: .original))) { image in
                 image
                     .resizable()
                     .aspectRatio(contentMode: .fit)

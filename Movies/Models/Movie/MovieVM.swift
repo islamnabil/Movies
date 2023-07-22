@@ -7,12 +7,22 @@
 
 import Foundation
 
-public protocol MovieVMProtocol {
+enum PosterSize: String {
+    case w92 = "w92"
+    case w154 = "w154"
+    case w185 = "w185"
+    case w342 = "w342"
+    case w500 = "w500"
+    case w780 = "w780"
+    case original = "original"
+}
+
+protocol MovieVMProtocol {
     var id: Int { get }
     var title: String { get }
     var releaseDate: String { get }
-    var posterPath: String { get }
     var overview: String { get }
+    func posterPath(size: PosterSize) -> String
 }
 
 class MovieVM: MovieVMProtocol {
@@ -37,14 +47,18 @@ class MovieVM: MovieVMProtocol {
         movie?.releaseDate ?? ""
     }
     
-    var posterPath: String {
-        var path = movie?.posterPath
-        path?.removeFirst()
-        return "\(Server.mediaBaseURL)w500/\(path!)"
-    }
-    
     var overview: String {
         movie?.overview ?? ""
+    }
+    
+    //MARK: - Public Methods
+    func posterPath(size: PosterSize) -> String {
+        var path = movie?.posterPath
+        path?.removeFirst()
+    
+        let posterSize = Server.posterSizes.first { $0 == size.rawValue } ?? ""
+        
+        return "\(Server.mediaBaseURL)\(posterSize)/\(path ?? "")"
     }
     
 }

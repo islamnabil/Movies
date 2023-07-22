@@ -13,6 +13,7 @@ struct Server {
     static let stagingURL = "https://api.themoviedb.org/3/"
     static let apiKEY = "c9856d0cb57c3f14bf75bdc6c063b8f3"
     static var mediaBaseURL = "https://image.tmdb.org/t/p/"
+    static var posterSizes: [String] = []
     
     static var baseURL: String {
         return productionURL
