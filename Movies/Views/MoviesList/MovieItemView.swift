@@ -17,8 +17,9 @@ struct MovieItemView: View {
             AsyncImage(url: URL(string: movie.posterPath(size: .w92))) { image in
                 image
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 50, height: 100)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 70, height: 70)
+                    .cornerRadius(10)
             } placeholder: {
                 ProgressView()
             }

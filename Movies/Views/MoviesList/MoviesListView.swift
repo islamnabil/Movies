@@ -27,6 +27,7 @@ struct MoviesListView<ViewModel>: View where ViewModel: MoviesListViewModelProto
             .onFirstAppear  {
                 viewModel.fetchConfiguration()
             }
+            .navigationTitle("Trending Movies 🍿🔥")
         }
     }
 }

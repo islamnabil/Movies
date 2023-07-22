@@ -10,38 +10,40 @@ import SwiftUI
 struct MovieDetailsView: View {
     // MARK: - Properties
     var movie: MovieVMProtocol
+    @Environment(\.presentationMode) var presentationMode
     
     // MARK: - Body
     var body: some View {
-        VStack(spacing: 16) {
+        ScrollView {
             AsyncImage(url: URL(string: movie.posterPath(size: .w500))) { image in
                 image
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 300)
+                    .aspectRatio(contentMode: .fill)
             } placeholder: {
                 ProgressView()
             }
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: 10) {
                 Text(movie.title)
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.black)
                 
                 Text(movie.releaseDate)
                     .font(.headline)
-                    .foregroundColor(.gray)
-            }
-            .padding(.horizontal)
-            
-            ScrollView {
+                    .foregroundColor(.black)
+                
                 Text(movie.overview)
                     .font(.body)
                     .lineLimit(nil)
-                    .padding(.horizontal)
             }
-            .padding(.top, 16)
+            .padding(.horizontal)
         }
+        .ignoresSafeArea(edges: .top)
+        .scrollIndicators(ScrollIndicatorVisibility.hidden)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: BackButton {
+            presentationMode.wrappedValue.dismiss()
+        })
     }
 }
 
