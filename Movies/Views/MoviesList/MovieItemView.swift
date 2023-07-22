@@ -9,22 +9,20 @@ import SwiftUI
 
 struct MovieItemView: View {
     // MARK: - Properties
-    var imageName: String
-    var name: String
-    var date: String
+    var movie: MovieVMProtocol
     
     // MARK: - Body
     var body: some View {
         HStack {
-            Image(systemName: imageName)
+            Image(systemName: movie.posterPath)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 50, height: 100)
             VStack(alignment: .leading) {
-                Text(name)
+                Text(movie.title)
                     .font(.headline)
                     .lineLimit(nil)
-                Text(date)
+                Text(movie.releaseDate)
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
@@ -35,6 +33,6 @@ struct MovieItemView: View {
 
 struct MovieItemView_Previews: PreviewProvider {
     static var previews: some View {
-        MovieItemView(imageName: "photo.on.rectangle.angled", name: "Title", date: "Date")
+        MovieItemView(movie: MovieVM(movie: MovieModel(title: "Title", releaseDate: "20-2-2022", posterPath: "photo.on.rectangle.angled")))
     }
 }

@@ -8,8 +8,10 @@
 import Foundation
 
 public protocol MovieVMProtocol {
+    var id: Int { get }
     var title: String { get }
     var releaseDate: String { get }
+    var posterPath: String { get }
 }
 
 class MovieVM: MovieVMProtocol {
@@ -22,11 +24,18 @@ class MovieVM: MovieVMProtocol {
     }
     
     //MARK: - Computed Properties
+    var id: Int {
+        movie?.id ?? Int()
+    }
+    
     var title: String {
         movie?.title ?? ""
     }
     var releaseDate: String {
         movie?.releaseDate ?? ""
+    }
+    var posterPath: String {
+        ""
     }
     
 }

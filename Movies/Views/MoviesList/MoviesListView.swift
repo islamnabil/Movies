@@ -7,14 +7,24 @@
 
 import SwiftUI
 
-struct MoviesListView: View {
+struct MoviesListView<ViewModel>: View where ViewModel: MoviesListViewModelProtocol{
+    
+    @StateObject var viewModel: ViewModel
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List(viewModel.movies, id: \.id) { movie in
+            MovieItemView(movie: movie)
+        }
+        .onAppear {
+            viewModel.fetchTrendingMovies() // Call fetchTrendingMovies when the view appears
+        }
     }
 }
 
 struct MoviesListView_Previews: PreviewProvider {
     static var previews: some View {
-        MoviesListView()
+        let viewModel = MoviesListViewModel(provider: MoviesAPI())
+        MoviesListView<MoviesListViewModel>(viewModel: viewModel)
     }
 }
