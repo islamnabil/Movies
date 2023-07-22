@@ -40,7 +40,7 @@ class MovieVM: MovieVMProtocol {
     var posterPath: String {
         var path = movie?.posterPath
         path?.removeFirst()
-        return "https://image.tmdb.org/t/p/w500/\(path!)"
+        return "\(Server.mediaBaseURL)w500/\(path!)"
     }
     
     var overview: String {

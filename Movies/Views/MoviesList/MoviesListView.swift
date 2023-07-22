@@ -24,8 +24,8 @@ struct MoviesListView<ViewModel>: View where ViewModel: MoviesListViewModelProto
                         }
                 }
             }
-            .onAppear {
-                viewModel.fetchTrendingMovies()
+            .onFirstAppear  {
+                viewModel.fetchConfiguration()
             }
         }
     }
@@ -33,7 +33,7 @@ struct MoviesListView<ViewModel>: View where ViewModel: MoviesListViewModelProto
     
     struct MoviesListView_Previews: PreviewProvider {
         static var previews: some View {
-            let viewModel = MoviesListViewModel(provider: MoviesAPI())
+            let viewModel = MoviesListViewModel(configurationProvider: ConfigurationAPI(), moviesProvider: MoviesAPI())
             MoviesListView<MoviesListViewModel>(viewModel: viewModel)
         }
     }

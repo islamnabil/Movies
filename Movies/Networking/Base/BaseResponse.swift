@@ -17,6 +17,10 @@ public class BaseResponse<T: Decodable>: Decodable {
     }
 }
 
+public class BaseConfigurationResponse<T: Decodable>: Decodable {
+    public var images: T?
+}
+
 public class BaseArrayResponse<T: Decodable>: Decodable {
     var status: String?
     var statusCode: Int?

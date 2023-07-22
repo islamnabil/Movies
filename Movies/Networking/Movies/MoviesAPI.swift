@@ -15,7 +15,7 @@ protocol MoviesAPIProtocol {
 
 public class MoviesAPI:  BaseAPI<MoviesNetworking>, MoviesAPIProtocol {
     func list(page: Int) -> AnyPublisher<PaginatedBaseArrayResponse<MovieModel>, ErrorResponse> {
-        self.fetchData(target: .list(page: page))
+        fetchData(target: .list(page: page))
     }
-
+    
 }

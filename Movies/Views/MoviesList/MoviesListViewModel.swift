@@ -13,6 +13,7 @@ protocol MoviesListViewModelProtocol: ObservableObject {
     var movies: [MovieVMProtocol] { get }
     var page: Int { get set }
     var totalPages: Int { get }
+    func fetchConfiguration()
     func fetchTrendingMovies()
 }
 
@@ -25,8 +26,9 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
     }
     
     // MARK: - Init
-    init(provider: MoviesAPIProtocol) {
-        self.provider = provider
+    init(configurationProvider: ConfigurationAPIProtocol, moviesProvider: MoviesAPIProtocol) {
+        self.configurationProvider = configurationProvider
+        self.moviesProvider = moviesProvider
     }
     
     // MARK: - Proprties
@@ -35,7 +37,8 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
     var page: Int = 1
     var totalPages: Int = 1
     private var bindings = Set<AnyCancellable>()
-    private var provider: MoviesAPIProtocol?
+    private var moviesProvider: MoviesAPIProtocol?
+    private var configurationProvider: ConfigurationAPIProtocol?
     lazy var requestCompletionHandler: (Subscribers.Completion<ErrorResponse>) -> Void = { completion in
         switch completion {
         case .failure(let error):
@@ -47,9 +50,21 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
     }
     
     // MARK: - Public Methods
+    func fetchConfiguration() {
+        configurationProvider?.configuration()
+            .receive(on: RunLoop.main)
+            .sink(receiveCompletion: requestCompletionHandler) { [weak self] in
+                if let results = $0.images, let baseURL = results.secureBaseUrl {
+                    Server.mediaBaseURL =  baseURL
+                    self?.fetchTrendingMovies()
+                }
+            }
+            .store(in: &bindings)
+    }
+    
     func fetchTrendingMovies() {
         if page <= totalPages {
-            provider?.list(page: page)
+            moviesProvider?.list(page: page)
                 .receive(on: RunLoop.main)
                 .sink(receiveCompletion: requestCompletionHandler) { [weak self] in
                     if let results = $0.results, let totalPages = $0.totalPages {
@@ -65,5 +80,4 @@ class MoviesListViewModel: MoviesListViewModelProtocol {
                 .store(in: &bindings)
         }
     }
-    
 }
