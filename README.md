@@ -16,7 +16,7 @@ Movies is a mini iOS app that you use to display trending movies. You can trendi
 
 ## Screenshots
 
-<img src="https://github.com/islamnabil/Movies/blob/main/ScreenShots/list.png" width="230" height="500"> <img src="https://github.com/islamnabil/Movies/blob/main/ScreenShots/details_1.png" width="230" height="500"> <img src="https://github.com/islamnabil/Movies/blob/main/ScreenShots/details_2.png" width="230" height="500"> <img 
+<img src="https://github.com/islamnabil/Movies/blob/main/ScreenShots/list.png" width="230" height="500"> <img src="https://github.com/islamnabil/Movies/blob/main/ScreenShots/details_1.png" width="230" height="500"> <img src="https://github.com/islamnabil/Movies/blob/main/ScreenShots/details_2.png" width="230" height="500"> 
 
 ## Installation
 ### CocoaPods
